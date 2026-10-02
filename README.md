@@ -45,3 +45,10 @@ MIN(1, remaining/(MAX(max,1)*0.75))
 - Set a formula to `damage` to skip that reduction step.
 - Set the degradation formula to `1` to disable durability decay.
 - Variables: `damage`, `armor`, `toughness`, `enchant`, `remaining`, `max`.
+
+- ## Credits & License
+
+- Original mod by Jackiecrazy: [CurseForge](https://www.curseforge.com/minecraft/mc-mods/armor-curve) · [Modrinth](https://modrinth.com/mod/armor-curve)
+- This NeoForge port: Accidey
+- Special thanks to the people behind EvalEx
+- License: GPL-3.0 (see [LICENSE](LICENSE) and [NOTICE](NOTICE))
