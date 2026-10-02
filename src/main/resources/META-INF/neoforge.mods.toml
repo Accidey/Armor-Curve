@@ -1,0 +1,36 @@
+modLoader = "javafml"
+loaderVersion = "${loader_version_range}"
+license = "${mod_license}"
+issueTrackerURL = "https://github.com/Jackiecrazy/ArmorCurve/issues"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "Jackiecrazy, xulai"
+credits = "The people behind EvalEx"
+displayURL = "https://github.com/Jackiecrazy/ArmorCurve"
+description = '''
+Flattens the armor curve! Configure the armor, toughness and protection enchantment damage reduction
+formulas, and let armor attributes decay as the equipment loses durability.
+自定义护甲、护甲韧性与保护类附魔的减伤公式，并让装备属性随耐久损耗而衰减。
+This is a NeoForge port of the original Armor Curve mod by Jackiecrazy, licensed under GPL-3.0.
+本模组基于 Jackiecrazy 的 Armor Curve 移植，遵循 GPL-3.0 许可证。
+'''
+
+[[mixins]]
+config = "armorcurve.mixins.json"
+
+[[dependencies.${mod_id}]]
+modId = "neoforge"
+type = "required"
+versionRange = "[${neo_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
