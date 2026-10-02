@@ -1,1 +1,0 @@
-Flattens the armor curve!
