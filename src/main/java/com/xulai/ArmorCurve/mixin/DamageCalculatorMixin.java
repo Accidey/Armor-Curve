@@ -4,9 +4,13 @@ import com.xulai.ArmorCurve.CurveConfig;
 import com.xulai.ArmorCurve.Formula;
 import java.math.BigDecimal;
 import java.util.function.Supplier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -33,7 +37,7 @@ public class DamageCalculatorMixin {
         BigDecimal reduced = armorCurve$apply(first, input, () -> first.evaluate(DAMAGE, input, ARMOR, armorValue, TOUGHNESS, toughnessValue));
         float result = armorCurve$apply(second, reduced, () -> second.evaluate(DAMAGE, reduced, ARMOR, armorValue, TOUGHNESS, toughnessValue)).floatValue();
         if (Float.isFinite(result)) {
-            info.setReturnValue(result);
+            info.setReturnValue(armorCurve$applyWeaponEffects(target, damage, source, result));
         }
     }
 
@@ -49,6 +53,16 @@ public class DamageCalculatorMixin {
         if (Float.isFinite(result)) {
             info.setReturnValue(result);
         }
+    }
+
+    private static float armorCurve$applyWeaponEffects(LivingEntity target, float damage, DamageSource source, float reduced) {
+        ItemStack weapon = source.getWeaponItem();
+        if (weapon == null || weapon.isEmpty() || damage <= 0.0F || !(target.level() instanceof ServerLevel level)) {
+            return reduced;
+        }
+        float before = Mth.clamp(1.0F - reduced / damage, 0.0F, 1.0F);
+        float after = Mth.clamp(EnchantmentHelper.modifyArmorEffectiveness(level, weapon, target, source, before), 0.0F, 1.0F);
+        return after == before ? reduced : reduced + damage * (before - after);
     }
 
     private static BigDecimal armorCurve$apply(Formula formula, BigDecimal damage, Supplier<BigDecimal> evaluation) {
