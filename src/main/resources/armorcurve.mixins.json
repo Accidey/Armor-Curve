@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.xulai.ArmorCurve.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ArmorDegradationMixin",
+    "DamageCalculatorMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
